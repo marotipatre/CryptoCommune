@@ -1,35 +1,34 @@
-import React, { useState } from "react";
-import { IoLogoEdge, IoBookmark } from "react-icons/io5";
-import {
-  BsImageFill,
-  BsFillSuitClubFill,
-  BsDatabaseAdd,
-  BsHouseFill,
-} from "react-icons/bs";
-import { IoCreateSharp } from "react-icons/io5";
-import { RiSettings4Fill } from "react-icons/ri";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { IoLogoEdge } from "react-icons/io5";
+import { BsHouseFill, BsFillArrowUpCircleFill } from "react-icons/bs";
+import { IoCreateSharp, IoWallet } from "react-icons/io5";
 import classNames from "classnames";
-
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  handleSidebar: (route: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({
-  isOpen,
-  onClose,
-  handleSidebar,
-}) => {
-  const navigationData = ["Dashboard", "My Club", "Create Club"];
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+  const navigationData = ["Dashboard", "My Club", "All Clubs", "Create Club"];
   const [currentRoute, setCurrentRoute] = useState<string>("Dashboard");
+  const navigate = useNavigate();
 
   const handleNavigationClick = (route: string) => {
     console.log(`Navigating to ${route}`);
     setCurrentRoute(route);
-    handleSidebar(route);
     onClose();
   };
+
+  useEffect(() => {
+    currentRoute == "Create Club"
+      ? navigate("/createclub")
+      : currentRoute == "All Clubs"
+      ? navigate("/allclubs")
+      : currentRoute == "Dashboard"
+      ? navigate("/dashboard")
+      : currentRoute == "My Club" && navigate("/myclub");
+  }, [currentRoute]);
 
   return (
     <div className={classNames("fixed inset-0 z-50", { hidden: !isOpen })}>
@@ -69,13 +68,14 @@ const Sidebar: React.FC<SidebarProps> = ({
                     <BsHouseFill className="mr-3 text-gray-400" />
                   )}
                   {route === "My Club" && (
-                    <BsImageFill className="mr-3 text-gray-400" />
+                    <IoWallet className="mr-3 text-gray-400" />
+                  )}
+                  {route === "All Clubs" && (
+                    <BsFillArrowUpCircleFill className="mr-3 text-gray-400" />
                   )}
                   {route === "Create Club" && (
                     <IoCreateSharp className="mr-3 text-gray-400" />
                   )}
-                  {/* {route === 'Favorites' && <BsFillStarFill className="mr-3 text-gray-400" />}
-                  {route === 'Saved' && <RiSettings4Fill className="mr-3 text-gray-400" />} */}
                   <span>{route}</span>
                 </button>
               </li>

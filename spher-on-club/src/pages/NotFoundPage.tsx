@@ -10,7 +10,7 @@ export function NotFoundPage(): ReactElement {
           Nothing Found here !
         </p>
         <p className="font-spaceGrotesk text-3xl mt-6 mb-11">
-          Thre’s no Song / album / playlists here <br /> please add some by
+          Thre’s no club here <br /> please add some by
           invest
         </p>
         <div className="mb-20">
